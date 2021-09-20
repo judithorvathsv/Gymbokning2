@@ -68,7 +68,7 @@ namespace Gymbokning.Areas.Identity.Pages.Account
             public string FirstName { get; set; }      
             public string LastName { get; set; }
             public string FullName { get { return FirstName + "" + LastName; } }
-            //public DateTime TimeOfRegistration { get; set; }
+            public DateTime TimeOfRegistration { get; set; }
 
 
 
@@ -88,7 +88,7 @@ namespace Gymbokning.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-                var user = new ApplicationUser { Email = Input.Email, FirstName=Input.FirstName, LastName=Input.LastName, UserName = Input.FullName };
+                var user = new ApplicationUser { Email = Input.Email, FirstName=Input.FirstName, LastName=Input.LastName, UserName = Input.FullName, TimeOfRegistration=DateTime.Now };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
