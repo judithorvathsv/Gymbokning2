@@ -19,7 +19,7 @@ namespace Gymbokning.Controllers
         private readonly ApplicationDbContext _context;
 
         private readonly Faker faker;
-        private readonly UserManager<ApplicationUser> userManager;
+        //private readonly UserManager<ApplicationUser> userManager;
 
 
 
@@ -29,9 +29,13 @@ namespace Gymbokning.Controllers
             faker = new Faker();
         }
 
+
+
+
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.GymClass.ToListAsync());
         }
 
@@ -94,6 +98,12 @@ namespace Gymbokning.Controllers
             var gymClass = await _context.GymClass.Include(g => g.AttendingMembers).ThenInclude(a => a.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            //var attendingMembers = new List<string>();
+
+            //foreach (var item in gymClass.AttendingMembers)
+            //{
+            //    attendingMembers.Add(_context.AppUsers.FindAsync(item.AppionUserId));
+            //}
 
             if (gymClass == null)
             {
@@ -106,7 +116,7 @@ namespace Gymbokning.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: GymClasses/Create
         public IActionResult Create()
         {
@@ -116,7 +126,7 @@ namespace Gymbokning.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // POST: GymClasses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -136,7 +146,7 @@ namespace Gymbokning.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         // GET: GymClasses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -156,7 +166,7 @@ namespace Gymbokning.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // POST: GymClasses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -195,7 +205,7 @@ namespace Gymbokning.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: GymClasses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -217,7 +227,7 @@ namespace Gymbokning.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // POST: GymClasses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -17,7 +17,8 @@ namespace Gymbokning.Data
 
         public DbSet<GymClass> GymClass { get; set; }
 
-        // DbSet<ApplicationUserGymClass> ApplicationUserGymClass { get; set; }
+        //public DbSet<ApplicationUser> AppUser { get; set; }
+
         public DbSet<ApplicationUserGymClass> ApplicationUserGymClass { get; set; }
 
 
