@@ -4,33 +4,22 @@
     ViewData["Title"] = "BookGymClassView";
 }
 
-<h1>Book Gymclass</h1>
-
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        <a class="btn btn-sm btn-primary" asp-action="Create">Create New</a>
-    }
-</p>
+<h1 style="text-align:center">Book Gymclass</h1>
+<br/>
 <table class="table">
     <thead>
         <tr>
+            <th> @Html.DisplayNameFor(model => model.Name) </th>
+            <th> @Html.DisplayNameFor(model => model.StartTime)</th>
+            <th> @Html.DisplayNameFor(model => model.Duration) </th>
+            <th> @Html.DisplayNameFor(model => model.Description) </th>
+            <th> @Html.DisplayNameFor(model => model.ApplicationUserGymClassIsBooked) </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-sm btn-primary float-right" asp-action="Create">Create New</a>
+                }
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Duration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationUserGymClassIsBooked)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>

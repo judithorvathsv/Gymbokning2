@@ -235,7 +235,7 @@ namespace Gymbokning.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    /*
+                    
                     if (!GymClassExists(gymClass.Id))
                     {
                         return NotFound();
@@ -244,7 +244,7 @@ namespace Gymbokning.Controllers
                     {
                         throw;
                     }
-                    */
+                    
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -291,7 +291,10 @@ namespace Gymbokning.Controllers
         }
 
 
-
+        private bool GymClassExists(int id)
+        {
+            return _context.GymClass.Any(e => e.Id == id);
+        }
 
 
     }

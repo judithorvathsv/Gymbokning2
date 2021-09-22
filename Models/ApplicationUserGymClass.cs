@@ -12,9 +12,7 @@ namespace Gymbokning.Models
         //Navigations
         public int GymClassId { get; set; }
         public virtual GymClass GymClass { get; set; }
-
         public string ApplicationUserId { get; set; }
-
         public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
