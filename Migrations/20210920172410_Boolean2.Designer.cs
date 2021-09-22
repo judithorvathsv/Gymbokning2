@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gymbokning.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210920090531_FullName")]
-    partial class FullName
+    [Migration("20210920172410_Boolean2")]
+    partial class Boolean2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -108,6 +108,9 @@ namespace Gymbokning.Migrations
 
                     b.Property<int>("GymClassId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsBooked")
+                        .HasColumnType("bit");
 
                     b.HasKey("ApplicationUserId", "GymClassId");
 

@@ -2,7 +2,7 @@
 
 namespace Gymbokning.Migrations
 {
-    public partial class RegisterTime : Migration
+    public partial class Boolean2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

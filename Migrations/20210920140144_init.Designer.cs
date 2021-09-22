@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gymbokning.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210920100714_RegisterTime")]
-    partial class RegisterTime
+    [Migration("20210920140144_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

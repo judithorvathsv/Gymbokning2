@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gymbokning.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210919191708_init")]
-    partial class init
+    [Migration("20210920171507_Boolean")]
+    partial class Boolean
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,14 +40,17 @@ namespace Gymbokning.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -73,6 +76,9 @@ namespace Gymbokning.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TimeOfRegistration")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -102,6 +108,9 @@ namespace Gymbokning.Migrations
 
                     b.Property<int>("GymClassId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsBooked")
+                        .HasColumnType("bit");
 
                     b.HasKey("ApplicationUserId", "GymClassId");
 
