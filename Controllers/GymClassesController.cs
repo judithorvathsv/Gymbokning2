@@ -17,31 +17,22 @@ namespace Gymbokning.Controllers
 {
     public class GymClassesController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        private readonly Faker faker;
-        //private readonly UserManager<ApplicationUser> userManager;
-
-
+        private readonly ApplicationDbContext _context;    
 
 
         public GymClassesController(ApplicationDbContext context)
         {
             _context = context;
-            faker = new Faker();
+          
         }
-
 
 
 
 
         // GET: GymClasses
         public async Task<IActionResult> Index()
-        {
-            //return View(await _context.GymClass.ToListAsync());
-            //
-
-            if(_context.ApplicationUserGymClass != null) {
+        {          
+            if (_context.ApplicationUserGymClass != null) {
                 var model = await _context.GymClass.Include(g => g.AttendingMembers).ThenInclude(a => a.ApplicationUser).ToListAsync();
             return View(model);
             }
@@ -52,10 +43,34 @@ namespace Gymbokning.Controllers
 
 
 
+        public async Task<IActionResult> BookedGymClassAllList()
+        {          
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var model = await _context.GymClass.Select(i => new BookedGymClassViewModel
+            {
+                Id = i.Id,
+                Name = i.Name,
+                StartTime = i.StartTime,
+                Duration = i.Duration,
+                Description = i.Description,
+                ApplicationUserGymClassIsBooked = i.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+            }).ToListAsync();       
+
+            //all gymclasses regardless of StartTime
+             return View("BookedGymClassAllListView", model);
+            }
+        
+        
+        public ActionResult HistoryToNewGymClasses() => RedirectToAction("BookedGymClass");
+       
+
+
 
         public async Task<IActionResult> BookedGymClass()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);        
+        {            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);    
+            
             var model = await _context.GymClass.Select(i => new BookedGymClassViewModel
             {
                 Id = i.Id,
@@ -65,16 +80,58 @@ namespace Gymbokning.Controllers
                 Description = i.Description,                
                 ApplicationUserGymClassIsBooked = i.AttendingMembers.Any(a => a.ApplicationUserId == userId)           
             }).ToListAsync();
-            return View("BookGymClassView", model);
+
+            //only classes which StartTime is not older then today
+           var newestModel = model.Where(t => t.StartTime > DateTime.Now);          
+           return View("BookGymClassView", newestModel);           
+        }
+
+
+        public ActionResult HistoryToAllGymClasses() => RedirectToAction("BookedGymClassAllList");
+
+
+
+
+        public async Task<IActionResult> BookedGymClassHistory()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var model = await _context.GymClass.Select(i => new BookedGymClassViewModel
+            {
+                Id = i.Id,
+                Name = i.Name,
+                StartTime = i.StartTime,
+                Duration = i.Duration,
+                Description = i.Description,
+                ApplicationUserGymClassIsBooked = i.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+            }).ToListAsync();
+
+            //only classes which StartTime is older then today AND class is booked by logged user
+            var oldBookedClasses = model.Where(t => t.StartTime < DateTime.Now && t.ApplicationUserGymClassIsBooked==true);
+            return View("OldBookedGymClassesView", oldBookedClasses);
         }
 
 
 
 
+        public async Task<IActionResult> CurrentlyBookedClasses()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var model = await _context.GymClass.Select(i => new BookedGymClassViewModel
+            {
+                Id = i.Id,
+                Name = i.Name,
+                StartTime = i.StartTime,
+                Duration = i.Duration,
+                Description = i.Description,
+                ApplicationUserGymClassIsBooked = i.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+            }).ToListAsync();
 
-      
-        
+            //only classes which StartTime is not older then today AND class is booked by logged user
+            var oldBookedClasses = model.Where(t => t.StartTime > DateTime.Now && t.ApplicationUserGymClassIsBooked == true);
+            return View("CurrentlyBookedClassesView", oldBookedClasses);
+        }
 
 
 
@@ -96,12 +153,8 @@ namespace Gymbokning.Controllers
                 //logged user is on this class?  
                 var b = await _context.ApplicationUserGymClass.FirstOrDefaultAsync(t => t.ApplicationUserId == userId && t.GymClassId == id);
 
-
-
-
                 //user is not on this class: add user to this class (add into ApplicationUserGymClass db)
                 if (b == null) {
-
                     //create user+course row in the ApplicationUserGymClass db
                     var classAndMember = new ApplicationUserGymClass
                     {
@@ -111,11 +164,8 @@ namespace Gymbokning.Controllers
                     };  
 
                     _context.ApplicationUserGymClass.Add(classAndMember);
-                    //_context.Add(new ApplicationUserGymClass { ApplicationUserId = userId, GymClassId = (int)id });
-                                       
+                    //_context.Add(new ApplicationUserGymClass { ApplicationUserId = userId, GymClassId = (int)id });                    
                  }
-
-
                 else
                 {
                     _context.ApplicationUserGymClass.Remove(b);                   
@@ -129,7 +179,6 @@ namespace Gymbokning.Controllers
 
         
 
-
         // GET: GymClasses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -140,13 +189,6 @@ namespace Gymbokning.Controllers
 
             var gymClass = await _context.GymClass.Include(g => g.AttendingMembers).ThenInclude(a => a.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            //var attendingMembers = new List<string>();
-
-            //foreach (var item in gymClass.AttendingMembers)
-            //{
-            //    attendingMembers.Add(_context.AppUsers.FindAsync(item.AppionUserId));
-            //}
 
             if (gymClass == null)
             {
@@ -159,14 +201,12 @@ namespace Gymbokning.Controllers
 
 
 
-
         [Authorize(Roles = "Admin")]
         // GET: GymClasses/Create
         public IActionResult Create()
         {
             return View();
         }
-
 
 
 
@@ -191,7 +231,6 @@ namespace Gymbokning.Controllers
 
 
 
-
         [Authorize(Roles ="Admin")]
         // GET: GymClasses/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -208,7 +247,6 @@ namespace Gymbokning.Controllers
             }
             return View(gymClass);
         }
-
 
 
 
@@ -234,8 +272,7 @@ namespace Gymbokning.Controllers
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
-                {
-                    
+                {                    
                     if (!GymClassExists(gymClass.Id))
                     {
                         return NotFound();
@@ -250,7 +287,6 @@ namespace Gymbokning.Controllers
             }
             return View(gymClass);
         }
-
 
 
 
@@ -273,7 +309,6 @@ namespace Gymbokning.Controllers
 
             return View(gymClass);
         }
-
 
 
 

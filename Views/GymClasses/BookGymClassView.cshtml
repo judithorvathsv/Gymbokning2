@@ -6,6 +6,11 @@
 
 <h1 style="text-align:center">Book Gymclass</h1>
 <br/>
+
+<div class="form-group">
+    <a asp-action="HistoryToAllGymClasses" class="btn btn-primary">Show all gymclasses</a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -13,70 +18,53 @@
             <th> @Html.DisplayNameFor(model => model.StartTime)</th>
             <th> @Html.DisplayNameFor(model => model.Duration) </th>
             <th> @Html.DisplayNameFor(model => model.Description) </th>
-            <th> @Html.DisplayNameFor(model => model.ApplicationUserGymClassIsBooked) </th>
-            <th>
-                @if (User.IsInRole("Admin"))
-                {
-                    <a class="btn btn-sm btn-primary float-right" asp-action="Create">Create New</a>
-                }
-            </th>
-        </tr>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <th> @Html.DisplayNameFor(model => model.ApplicationUserGymClassIsBooked) </th>
+            }
+                <th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-sm btn-primary float-right" asp-action="Create">Create New</a>
+                    }
+                </th>
+            </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUserGymClassIsBooked)
-            </td>
+            <td> @Html.DisplayFor(modelItem => item.Name) </td>
+            <td> @Html.DisplayFor(modelItem => item.StartTime) </td>
+            <td> @Html.DisplayFor(modelItem => item.Duration)  </td>
+            <td> @Html.DisplayFor(modelItem => item.Description) </td>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td> @Html.DisplayFor(modelItem => item.ApplicationUserGymClassIsBooked) </td>
+            }
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
 
 
-
-
-            <td>
-                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-
-                @if (User.IsInRole("Admin"))
-                {
-                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
-
-
-
-                @if (item.ApplicationUserGymClassIsBooked == true)
-                {
-                    <a class="btn btn-sm btn-primary" asp-action="BookingToggle" asp-route-id="@item.Id">Cancel</a>
-                }
-                else 
-                { 
-                    <a class="btn btn-sm btn-primary" asp-action="BookingToggle" asp-route-id="@item.Id">Book</a>
-                }
-
-            </td>
-
-
-
-
-
-
-
-
-
-
-
-        </tr>
-}
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (item.ApplicationUserGymClassIsBooked == true)
+                        {
+                            <a class="btn btn-sm btn-primary" asp-action="BookingToggle" asp-route-id="@item.Id">Cancel</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-primary" asp-action="BookingToggle" asp-route-id="@item.Id">Book</a>
+                        }
+                    }
+                </td>
+            </tr>}
     </tbody>
 </table>

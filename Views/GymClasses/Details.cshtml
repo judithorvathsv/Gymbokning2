@@ -37,42 +37,35 @@
     </dl>
 </div>
 <div>
-    <a class = "btn btn-sm btn-danger" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
+    <a class="btn btn-sm btn-danger" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
     <a class="btn btn-sm btn-primary" asp-action="Index">Back to Gymclasses</a>
 </div>
 
 
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        <h4>Members on the class:</h4>
+        <table class="table">
+            <thead>
+                <tr> <th>  @Html.DisplayNameFor(model => model.AttendingMembers.FirstOrDefault().ApplicationUser.FullName) </th> </tr>
+            <thead>
+            <tbody>
 
-<div>
-    <h4>Members on the class:</h4>
-    <table class="table">
-        <thead>
-            <tr> <th>  @Html.DisplayNameFor(model => model.AttendingMembers.FirstOrDefault().ApplicationUser.FullName) </th> </tr>
-        <thead>
-        <tbody>
-
-            @if (Model.AttendingMembers != null)
-            {
-                @*@foreach (var item in Model.AttendingMembers.Where(m=>m.IsBooked==true) )
-            {
-                if (item != null)
+                @if (Model.AttendingMembers != null)
                 {
-                    <tr>  <td>  @Html.DisplayFor(modelItem => item.ApplicationUser.FullName) </td>   </tr>
-
-                }
-             }*@
-
-                @foreach (var item in Model.AttendingMembers)
-                {
-                    if (item != null)
-                     {
-                        <tr>  <td>  @Html.DisplayFor(modelItem => item.ApplicationUser.FullName) </td>   </tr>
+                    @foreach (var item in Model.AttendingMembers)
+                    {
+                        if (item != null)
+                        {
+                            <tr>  <td>  @Html.DisplayFor(modelItem => item.ApplicationUser.FullName) </td>   </tr>
                         }
+                    }
+
+
                 }
 
-
-            }
-
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
+}

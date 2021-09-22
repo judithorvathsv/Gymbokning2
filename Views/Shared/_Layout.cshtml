@@ -11,17 +11,23 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="GymClasses" asp-action="Index">Gymclasses</a>
+                <img src="~/img/logo1.PNG" width="100" height="100" style="margin-right:30px" alt="logo" />
+                <a class="navbar-brand mylinks" asp-area="" asp-controller="GymClasses" asp-action="Index">Gymclasses</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">                        
+                    <ul class="navbar-nav flex-grow-1">
                         <li>
-                            <a asp-controller="GymClasses" asp-action="BookedGymClass">Gymbooking</a>
+                            <a class="mylinks" asp-controller="GymClasses" asp-action="BookedGymClass">Gymbooking</a>
                         </li>
-
+                        <li>
+                            <a class="mylinks" asp-controller="GymClasses" asp-action="BookedGymClassHistory">History</a>
+                        </li>
+                        <li>
+                            <a class="mylinks" asp-controller="GymClasses" asp-action="CurrentlyBookedClasses">Booked class</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

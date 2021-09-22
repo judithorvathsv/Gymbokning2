@@ -1,28 +1,60 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
+
+.mylinks {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    font-size: 20px;
+    margin-right: 30px;
+    color: black
+}
+
+.mylinks::after {
+   content: "";
+   background: white;
+    mix-blend-mode: exclusion;
+    width: calc(100% + 20px);
+    height: 0;
+    position: absolute;
+    bottom: -4px;
+    left: -10px;
+    transition: all .1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.mylinks:hover {
+    text-decoration: none;
+}
+
+.mylinks:hover::after {
+    height: calc(100% + 8px);
+    text-decoration: none;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -59,8 +91,12 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-image: url('/img/background3.png');
+    color: white;
+    background-size:cover;
+    background-repeat: no-repeat;
 }
 .footer {
   position: absolute;
@@ -69,3 +105,22 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/* Table style
+    --------------------------------------------------
+*/
+.table {
+    color: white;
+}
+
+.btn:hover {
+    animation: mymove 5.7s infinite;
+}
+
+
+@keyframes mymove {
+    50% {
+        box-shadow: 2px 4px 8px saddlebrown;
+    }
+}
+
