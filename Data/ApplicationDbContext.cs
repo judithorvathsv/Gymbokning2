@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Gymbokning.Models.ViewModels;
 
 namespace Gymbokning.Data
 {
@@ -21,7 +22,7 @@ namespace Gymbokning.Data
 
         public DbSet<ApplicationUserGymClass> ApplicationUserGymClass { get; set; }
 
-
+        public DbSet<BookedGymClassViewModel> BookedGymClassViewModel { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,12 +30,13 @@ namespace Gymbokning.Data
             builder.Entity<ApplicationUserGymClass>().HasKey(t => new
             {
                 t.ApplicationUserId,
-                t.GymClassId
+                t.GymClassId           
             }
                 );
 
 
 
         }
+       
     }
 }

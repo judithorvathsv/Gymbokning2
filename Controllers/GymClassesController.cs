@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Bogus;
+using Gymbokning.Models.ViewModels;
 
 namespace Gymbokning.Controllers
 {
@@ -23,6 +24,7 @@ namespace Gymbokning.Controllers
 
 
 
+
         public GymClassesController(ApplicationDbContext context)
         {
             _context = context;
@@ -32,14 +34,49 @@ namespace Gymbokning.Controllers
 
 
 
+
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
+            //return View(await _context.GymClass.ToListAsync());
+            //
 
-            return View(await _context.GymClass.ToListAsync());
+            if(_context.ApplicationUserGymClass != null) {
+                var model = await _context.GymClass.Include(g => g.AttendingMembers).ThenInclude(a => a.ApplicationUser).ToListAsync();
+            return View(model);
+            }
+            else
+                return View(await _context.GymClass.ToListAsync());
         }
 
-     
+
+
+
+
+        public async Task<IActionResult> BookedGymClass()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);        
+            var model = await _context.GymClass.Select(i => new BookedGymClassViewModel
+            {
+                Id = i.Id,
+                Name = i.Name,
+                StartTime = i.StartTime,
+                Duration = i.Duration,
+                Description = i.Description,                
+                ApplicationUserGymClassIsBooked = i.AttendingMembers.Any(a => a.ApplicationUserId == userId)           
+            }).ToListAsync();
+            return View("BookGymClassView", model);
+        }
+
+
+
+
+
+
+      
+        
+
+
 
 
         [Authorize]
@@ -58,34 +95,40 @@ namespace Gymbokning.Controllers
 
                 //logged user is on this class?  
                 var b = await _context.ApplicationUserGymClass.FirstOrDefaultAsync(t => t.ApplicationUserId == userId && t.GymClassId == id);
-                
 
-                //user is not on this class: add user to this class
-                if (b == null) {      
 
-                            //create user+course row in the ApplicationUserGymClass db
-                            var classAndMember = new ApplicationUserGymClass
-                            {
-                                ApplicationUser = _context.Users.ToList().FirstOrDefault(u => u.Id == userId),                                      
-                                GymClass = gymClass,
-                            }; 
 
-                          _context.ApplicationUserGymClass.Add(classAndMember);
-                          await _context.SaveChangesAsync();
+
+                //user is not on this class: add user to this class (add into ApplicationUserGymClass db)
+                if (b == null) {
+
+                    //create user+course row in the ApplicationUserGymClass db
+                    var classAndMember = new ApplicationUserGymClass
+                    {
+                        ApplicationUser = _context.Users.ToList().FirstOrDefault(u => u.Id == userId),
+                        GymClass = gymClass,
+                        //IsBooked = true
+                    };  
+
+                    _context.ApplicationUserGymClass.Add(classAndMember);
+                    //_context.Add(new ApplicationUserGymClass { ApplicationUserId = userId, GymClassId = (int)id });
+                                       
                  }
 
-                //remove user from this class:
+
                 else
                 {
-                    _context.Remove(b);
-                    _context.SaveChanges();
-                } 
+                    _context.ApplicationUserGymClass.Remove(b);                   
+                }
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Details", new { id = gymClass.Id });
             }      
         }
     
 
         
+
 
         // GET: GymClasses/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -116,12 +159,14 @@ namespace Gymbokning.Controllers
 
 
 
+
         [Authorize(Roles = "Admin")]
         // GET: GymClasses/Create
         public IActionResult Create()
         {
             return View();
         }
+
 
 
 
@@ -146,6 +191,7 @@ namespace Gymbokning.Controllers
 
 
 
+
         [Authorize(Roles ="Admin")]
         // GET: GymClasses/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -162,6 +208,7 @@ namespace Gymbokning.Controllers
             }
             return View(gymClass);
         }
+
 
 
 
@@ -188,6 +235,7 @@ namespace Gymbokning.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    /*
                     if (!GymClassExists(gymClass.Id))
                     {
                         return NotFound();
@@ -196,11 +244,13 @@ namespace Gymbokning.Controllers
                     {
                         throw;
                     }
+                    */
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(gymClass);
         }
+
 
 
 
@@ -227,6 +277,7 @@ namespace Gymbokning.Controllers
 
 
 
+
         [Authorize(Roles = "Admin")]
         // POST: GymClasses/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -242,9 +293,6 @@ namespace Gymbokning.Controllers
 
 
 
-        private bool GymClassExists(int id)
-        {
-            return _context.GymClass.Any(e => e.Id == id);
-        }
+
     }
 }

@@ -13,7 +13,7 @@ namespace Gymbokning.Models
 
         public DateTime StartTime { get; set; }
 
-       // public string Email { get; set; }
+        //public string Email { get; set; }
 
         public string Password { get; set; }
 
@@ -22,6 +22,8 @@ namespace Gymbokning.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        //public string FullName { get { return $"{FirstName} {LastName}"; } }
+
         public string FullName { get { return FirstName + " " +LastName; } }
         public DateTime TimeOfRegistration { get; set; }
 

@@ -52,6 +52,23 @@ namespace Gymbokning.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookedGymClassViewModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserGymClassIsBooked = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookedGymClassViewModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GymClass",
                 columns: table => new
                 {
@@ -261,6 +278,9 @@ namespace Gymbokning.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BookedGymClassViewModel");
 
             migrationBuilder.DropTable(
                 name: "GymClass");

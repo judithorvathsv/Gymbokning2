@@ -64,10 +64,13 @@ namespace Gymbokning.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
 
-         
-            public string FirstName { get; set; }      
+
+            public string FirstName { get; set; }
             public string LastName { get; set; }
+            //public string FullName { get { return $"{FirstName} {LastName}"; } }
+
             public string FullName { get { return FirstName + "" + LastName; } }
+
             public DateTime TimeOfRegistration { get; set; }
 
 
@@ -88,11 +91,11 @@ namespace Gymbokning.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-                var user = new ApplicationUser { Email = Input.Email, FirstName=Input.FirstName, LastName=Input.LastName, UserName = Input.FullName, TimeOfRegistration=DateTime.Now };
+                var user = new ApplicationUser { Email = Input.Email, FirstName=Input.FirstName, LastName=Input.LastName, UserName = Input.Email, TimeOfRegistration=DateTime.Now, Password = Input.Password };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("User created a new account with password.");           
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

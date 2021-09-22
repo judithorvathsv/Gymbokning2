@@ -48,7 +48,7 @@ namespace Gymbokning.Data
                 var appUser = new ApplicationUser
                 {    
                     Email = "admin@Gymbokning.se",
-                    //UserName = "admin@Gymbokning.se", 
+                    UserName = "admin@Gymbokning.se", 
                     Password = "AdminNet21!",
                     FirstName = "AdminF",
                     LastName = "AdminL"
