@@ -54,7 +54,7 @@
                     }
 
 
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && item.StartTime > DateTime.Now)
                     {
                         @if (item.ApplicationUserGymClassIsBooked == true)
                         {

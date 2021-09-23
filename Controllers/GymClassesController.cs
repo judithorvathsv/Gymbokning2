@@ -71,7 +71,7 @@ namespace Gymbokning.Controllers
             var model = await GetModel();
 
             //all gymclasses regardless of StartTime
-             return View("BookedGymClassAllListView", model);           
+            return View("BookedGymClassAllListView", model);           
         }        
         
         public ActionResult HistoryToNewGymClasses() => RedirectToAction("BookedGymClass");
