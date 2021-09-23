@@ -15,6 +15,7 @@ namespace Gymbokning.Models.ViewModels
         [Display(Name = "Start time")]
         public DateTime StartTime { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan Duration { get; set; }
 
         public string Description { get; set; }

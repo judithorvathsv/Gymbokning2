@@ -35,7 +35,7 @@
         {
             <tr>
                 <td> @Html.DisplayFor(modelItem => item.Name) </td>
-                <td> @Html.DisplayFor(modelItem => item.StartTime) </td>
+                <td class="scroll"> @Html.DisplayFor(modelItem => item.StartTime) </td>
                 <td> @Html.DisplayFor(modelItem => item.Duration)  </td>
                 <td> @Html.DisplayFor(modelItem => item.Description) </td>
 
@@ -43,7 +43,7 @@
                 {
                     <td> @Html.DisplayFor(modelItem => item.ApplicationUserGymClassIsBooked) </td>
                 }
-                <td>
+                <td class="scroll">
                     <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
 
                     @if (User.IsInRole("Admin"))

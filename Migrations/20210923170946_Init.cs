@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Gymbokning.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,10 +26,10 @@ namespace Gymbokning.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimeOfRegistration = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -74,10 +74,10 @@ namespace Gymbokning.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,6 +212,45 @@ namespace Gymbokning.Migrations
                         principalTable: "GymClass",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "GymClass",
+                columns: new[] { "Id", "Description", "Duration", "Name", "StartTime" },
+                values: new object[,]
+                {
+                    { 1, "Aerobics is a form of physical exercise that combines rhythmic aerobic exercise with stretching and strength training routines with the goal of improving all elements of fitness (flexibility, muscular strength, and cardio-vascular fitness).", new TimeSpan(0, 1, 30, 0, 0), "Aerobics", new DateTime(2021, 9, 2, 19, 9, 46, 578, DateTimeKind.Local).AddTicks(6395) },
+                    { 30, "Zumba is an interval workout. The classes move between high- and low-intensity dance moves designed to get your heart rate up and boost cardio endurance.", new TimeSpan(0, 1, 30, 0, 0), "Zumba", new DateTime(2021, 9, 7, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5966) },
+                    { 29, "Yoga is a mind-body practice that combines physical poses, controlled breathing, and meditation or relaxation. Yoga may help reduce stress, lower blood pressure and lower your heart rate. And almost anyone can do it.", new TimeSpan(0, 1, 0, 0, 0), "Yoga", new DateTime(2021, 9, 13, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5963) },
+                    { 28, "High-intensity interval training (HIIT) is a form of interval training, a cardiovascular exercise strategy alternating short periods of intense anaerobic exercise with less intense recovery periods, until too exhausted to continue. The method is not just restricted to cardio and frequently includes weights for the short periods as well.", new TimeSpan(0, 0, 30, 0, 0), "HIIT", new DateTime(2021, 10, 2, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5961) },
+                    { 27, "Kickboxing is a group of stand-up combat sports based on kicking and punching, historically developed from karate mixed with boxing. Kickboxing is practiced for self-defence, general fitness, or as a contact sport.", new TimeSpan(0, 1, 0, 0, 0), "Kickboxing", new DateTime(2021, 10, 1, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5958) },
+                    { 26, "Pilates improves flexibility, builds strength and develops control and endurance in the entire body. It puts emphasis on alignment, breathing, developing a strong core, and improving coordination and balance.", new TimeSpan(0, 1, 30, 0, 0), "Pilates", new DateTime(2021, 9, 30, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5956) },
+                    { 25, "Aerobics is a form of physical exercise that combines rhythmic aerobic exercise with stretching and strength training routines with the goal of improving all elements of fitness (flexibility, muscular strength, and cardio-vascular fitness).", new TimeSpan(0, 1, 30, 0, 0), "Aerobics", new DateTime(2021, 9, 29, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5954) },
+                    { 24, "Burn up to 1,000 calories while having a blast. Feel that oh-so-rewarding burn in your legs, arms, and core over an hour of fitness disguised as fun. It’s one of the most dynamic, effective, and enjoyable workouts you'll ever have.", new TimeSpan(0, 0, 45, 0, 0), "Skyrobics", new DateTime(2021, 9, 28, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5951) },
+                    { 23, "Boredom and time constraints are frequently cited reasons for giving up on a fitness routine. Sound familiar? Circuit training offers a practical solution for both. It’s a creative and flexible way to keep exercise interesting and saves time while boosting cardiovascular and muscular fitness. ", new TimeSpan(0, 0, 45, 0, 0), "Circuit", new DateTime(2021, 9, 27, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5949) },
+                    { 22, "Zumba is an interval workout. The classes move between high- and low-intensity dance moves designed to get your heart rate up and boost cardio endurance.", new TimeSpan(0, 1, 30, 0, 0), "Zumba", new DateTime(2021, 9, 7, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5947) },
+                    { 21, "Yoga is a mind-body practice that combines physical poses, controlled breathing, and meditation or relaxation. Yoga may help reduce stress, lower blood pressure and lower your heart rate. And almost anyone can do it.", new TimeSpan(0, 1, 0, 0, 0), "Yoga", new DateTime(2021, 9, 13, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5945) },
+                    { 20, "High-intensity interval training (HIIT) is a form of interval training, a cardiovascular exercise strategy alternating short periods of intense anaerobic exercise with less intense recovery periods, until too exhausted to continue. The method is not just restricted to cardio and frequently includes weights for the short periods as well.", new TimeSpan(0, 0, 30, 0, 0), "HIIT", new DateTime(2021, 9, 26, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5943) },
+                    { 19, "Kickboxing is a group of stand-up combat sports based on kicking and punching, historically developed from karate mixed with boxing. Kickboxing is practiced for self-defence, general fitness, or as a contact sport.", new TimeSpan(0, 1, 0, 0, 0), "Kickboxing", new DateTime(2021, 9, 25, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5940) },
+                    { 18, "Pilates improves flexibility, builds strength and develops control and endurance in the entire body. It puts emphasis on alignment, breathing, developing a strong core, and improving coordination and balance.", new TimeSpan(0, 1, 30, 0, 0), "Pilates", new DateTime(2021, 9, 24, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5938) },
+                    { 17, "Aerobics is a form of physical exercise that combines rhythmic aerobic exercise with stretching and strength training routines with the goal of improving all elements of fitness (flexibility, muscular strength, and cardio-vascular fitness).", new TimeSpan(0, 1, 30, 0, 0), "Aerobics", new DateTime(2021, 9, 22, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5935) },
+                    { 16, "Burn up to 1,000 calories while having a blast. Feel that oh-so-rewarding burn in your legs, arms, and core over an hour of fitness disguised as fun. It’s one of the most dynamic, effective, and enjoyable workouts you'll ever have.", new TimeSpan(0, 0, 45, 0, 0), "Skyrobics", new DateTime(2021, 9, 15, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5933) },
+                    { 15, "Boredom and time constraints are frequently cited reasons for giving up on a fitness routine. Sound familiar? Circuit training offers a practical solution for both. It’s a creative and flexible way to keep exercise interesting and saves time while boosting cardiovascular and muscular fitness. ", new TimeSpan(0, 0, 45, 0, 0), "Circuit", new DateTime(2021, 9, 14, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5931) },
+                    { 14, "Zumba is an interval workout. The classes move between high- and low-intensity dance moves designed to get your heart rate up and boost cardio endurance.", new TimeSpan(0, 1, 30, 0, 0), "Zumba", new DateTime(2021, 9, 7, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5929) },
+                    { 13, "Yoga is a mind-body practice that combines physical poses, controlled breathing, and meditation or relaxation. Yoga may help reduce stress, lower blood pressure and lower your heart rate. And almost anyone can do it.", new TimeSpan(0, 1, 0, 0, 0), "Yoga", new DateTime(2021, 9, 13, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5927) },
+                    { 12, "High-intensity interval training (HIIT) is a form of interval training, a cardiovascular exercise strategy alternating short periods of intense anaerobic exercise with less intense recovery periods, until too exhausted to continue. The method is not just restricted to cardio and frequently includes weights for the short periods as well.", new TimeSpan(0, 0, 30, 0, 0), "HIIT", new DateTime(2021, 9, 12, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5924) },
+                    { 11, "Kickboxing is a group of stand-up combat sports based on kicking and punching, historically developed from karate mixed with boxing. Kickboxing is practiced for self-defence, general fitness, or as a contact sport.", new TimeSpan(0, 1, 0, 0, 0), "Kickboxing", new DateTime(2021, 9, 11, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5921) },
+                    { 10, "Pilates improves flexibility, builds strength and develops control and endurance in the entire body. It puts emphasis on alignment, breathing, developing a strong core, and improving coordination and balance.", new TimeSpan(0, 1, 30, 0, 0), "Pilates", new DateTime(2021, 9, 10, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5919) },
+                    { 9, "Aerobics is a form of physical exercise that combines rhythmic aerobic exercise with stretching and strength training routines with the goal of improving all elements of fitness (flexibility, muscular strength, and cardio-vascular fitness).", new TimeSpan(0, 1, 30, 0, 0), "Aerobics", new DateTime(2021, 9, 9, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5917) },
+                    { 8, "Burn up to 1,000 calories while having a blast. Feel that oh-so-rewarding burn in your legs, arms, and core over an hour of fitness disguised as fun. It’s one of the most dynamic, effective, and enjoyable workouts you'll ever have.", new TimeSpan(0, 0, 45, 0, 0), "Skyrobics", new DateTime(2021, 9, 8, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5915) },
+                    { 7, "Boredom and time constraints are frequently cited reasons for giving up on a fitness routine. Sound familiar? Circuit training offers a practical solution for both. It’s a creative and flexible way to keep exercise interesting and saves time while boosting cardiovascular and muscular fitness. ", new TimeSpan(0, 0, 45, 0, 0), "Circuit", new DateTime(2021, 9, 8, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5913) },
+                    { 6, "Zumba is an interval workout. The classes move between high- and low-intensity dance moves designed to get your heart rate up and boost cardio endurance.", new TimeSpan(0, 1, 30, 0, 0), "Zumba", new DateTime(2021, 9, 7, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5910) },
+                    { 5, "Yoga is a mind-body practice that combines physical poses, controlled breathing, and meditation or relaxation. Yoga may help reduce stress, lower blood pressure and lower your heart rate. And almost anyone can do it.", new TimeSpan(0, 1, 0, 0, 0), "Yoga", new DateTime(2021, 9, 6, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5908) },
+                    { 4, "High-intensity interval training (HIIT) is a form of interval training, a cardiovascular exercise strategy alternating short periods of intense anaerobic exercise with less intense recovery periods, until too exhausted to continue. The method is not just restricted to cardio and frequently includes weights for the short periods as well.", new TimeSpan(0, 0, 30, 0, 0), "HIIT", new DateTime(2021, 9, 5, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5906) },
+                    { 3, "Kickboxing is a group of stand-up combat sports based on kicking and punching, historically developed from karate mixed with boxing. Kickboxing is practiced for self-defence, general fitness, or as a contact sport.", new TimeSpan(0, 1, 0, 0, 0), "Kickboxing", new DateTime(2021, 9, 4, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5902) },
+                    { 2, "Pilates improves flexibility, builds strength and develops control and endurance in the entire body. It puts emphasis on alignment, breathing, developing a strong core, and improving coordination and balance.", new TimeSpan(0, 1, 30, 0, 0), "Pilates", new DateTime(2021, 9, 4, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5879) },
+                    { 31, "Boredom and time constraints are frequently cited reasons for giving up on a fitness routine. Sound familiar? Circuit training offers a practical solution for both. It’s a creative and flexible way to keep exercise interesting and saves time while boosting cardiovascular and muscular fitness. ", new TimeSpan(0, 0, 45, 0, 0), "Circuit", new DateTime(2021, 10, 3, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5968) },
+                    { 32, "Burn up to 1,000 calories while having a blast. Feel that oh-so-rewarding burn in your legs, arms, and core over an hour of fitness disguised as fun. It’s one of the most dynamic, effective, and enjoyable workouts you'll ever have.", new TimeSpan(0, 0, 45, 0, 0), "Skyrobics", new DateTime(2021, 10, 4, 19, 9, 46, 580, DateTimeKind.Local).AddTicks(5970) }
                 });
 
             migrationBuilder.CreateIndex(

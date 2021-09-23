@@ -27,10 +27,9 @@ namespace Gymbokning
                 }
                 catch (Exception e)
                 {
-                    //var logger = services.GetRequiredService<ILogger<Program>>();
-                    //logger.LogError(e.Message, "Seed Fail");
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(e.Message, "Seed Fail");
                 }
-
             }
 
             host.Run();
