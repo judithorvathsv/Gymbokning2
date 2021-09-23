@@ -39,6 +39,12 @@
 <div>
     <a class="btn btn-sm btn-danger" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
     <a class="btn btn-sm btn-primary" asp-action="Index">Back to Gymclasses</a>
+    <script type='text/javascript'>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <button class="btn btn-sm btn-primary" onclick='goBack()'>Cancel</button>
 </div>
 
 
@@ -51,17 +57,18 @@
                 <tr> <th>  @Html.DisplayNameFor(model => model.AttendingMembers.FirstOrDefault().ApplicationUser.FullName) </th> </tr>
             <thead>
             <tbody>
-                
-                    @foreach (var item in Model.AttendingMembers)
+
+                @foreach (var item in Model.AttendingMembers)
+                {
+                    if (item != null)
                     {
-                        if (item != null)
-                        {
-                            <tr>  <td>  @Html.DisplayFor(modelItem => item.ApplicationUser.FullName) </td>   </tr>
-                        }
+                        <tr>  <td>  @Html.DisplayFor(modelItem => item.ApplicationUser.FullName) </td>   </tr>
                     }
-                
+                }
+
 
             </tbody>
         </table>
     </div>
 }
+
