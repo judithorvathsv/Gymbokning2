@@ -24,13 +24,16 @@
                         <li>
                             <a class="mylinks" asp-controller="GymClasses" asp-action="BookedGymClass">Gymbooking</a>
                         </li>
-                        <li>
-                            <a class="mylinks" asp-controller="GymClasses" asp-action="BookedGymClassHistory">History</a>
-                        </li>
-                        <li>
-                            <a class="mylinks" asp-controller="GymClasses" asp-action="CurrentlyBookedClasses">Booked class</a>
-                        </li>
-                    </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a class="mylinks" asp-controller="GymClasses" asp-action="BookedGymClassHistory">History</a>
+                            </li>
+                            <li>
+                                <a class="mylinks" asp-controller="GymClasses" asp-action="CurrentlyBookedClasses">Booked class</a>
+                            </li>
+                        }
+                        </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
