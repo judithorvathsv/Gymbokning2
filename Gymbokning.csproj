@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <ProjectReference Include="..\Gymbokning.Core\Gymbokning.Core.csproj" />
+    <ProjectReference Include="..\Gymbokning.Data\Gymbokning.Data.csproj" />
   </ItemGroup>
 
 </Project>

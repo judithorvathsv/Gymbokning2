@@ -1,4 +1,5 @@
 using Gymbokning.Data;
+using Gymbokning.Data.Data;
 using Gymbokning.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
